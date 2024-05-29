@@ -1,41 +1,15 @@
-import type { Recipe as RecipeType } from "../../types";
-
-import Recipe from "./Recipe/Recipe";
-
-const getRecipes = (): RecipeType[] => {
-  return [
-    {
-      id: "abc",
-      name: "Recipe 1",
-      authorId: "abc",
-      authorName: "Test User",
-      ingredients: [
-        {
-          id: "abc",
-          name: "Onion",
-        },
-        {
-          id: "def",
-          name: "Carrot",
-        },
-      ],
-    },
-    {
-      id: "abc",
-      name: "Recipe 2",
-      authorId: "abc",
-      authorName: "Test User",
-    },
-  ];
-};
+import { useRecipesQuery } from "./hooks";
 
 const Recipes = () => {
-  const recipes = getRecipes();
+  const { recipes, isLoading } = useRecipesQuery();
+
   return (
     <>
-      {recipes.map((recipe) => (
-        <Recipe recipe={recipe} />
-      ))}
+      <ul>
+        {!isLoading &&
+          recipes &&
+          recipes.map((recipe) => <li key={recipe.id}>{recipe.name}</li>)}
+      </ul>
     </>
   );
 };
