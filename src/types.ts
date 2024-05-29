@@ -7,7 +7,7 @@ export type Recipe = {
   id: string;
   name: string;
   authorId: string;
-  authorName: string;
+  authorName?: string;
   ingredients?: Ingredient[];
 };
 
