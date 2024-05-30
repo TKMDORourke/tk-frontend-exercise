@@ -8,7 +8,7 @@ export type Recipe = {
   name: string;
   authorId: string;
   authorName?: string;
-  ingredients?: Ingredient[];
+  ingredients: Ingredient[];
 };
 
 export type RecipeListing = Pick<Recipe, "id" | "name" | "authorId">;

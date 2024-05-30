@@ -1,6 +1,7 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useRecipeQuery } from "./hooks";
-import { InvalidRequestError, NotFoundError } from "./exceptions";
+import ErrorMessage from "./components/ErrorMessage";
+import Recipe from "./components/Recipe";
 
 type RecipeParams = {
   recipeId: string;
@@ -11,29 +12,27 @@ const RecipeDetail = () => {
 
   const { recipe, isLoading, isError, error } = useRecipeQuery(recipeId);
 
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
-
-  const getErrorMessage = (error: unknown) => {
-    if (error instanceof NotFoundError) {
-      return "No recipe exists for this ID";
+  const getChildComponent = () => {
+    if (isError) {
+      return <ErrorMessage error={error} />;
     }
-    if (error instanceof InvalidRequestError) {
-      return "This ID is in the wrong format";
+    if (isLoading) {
+      return <p>Loading...</p>;
     }
-    return "Could not load recipe, please try again later";
+    if (recipe) {
+      return <Recipe recipe={recipe} />;
+    }
+    return (
+      <ErrorMessage
+        error={new Error("Recipe not returned but no error raised")}
+      />
+    );
   };
-
-  if (isError) {
-    const errorMessage = getErrorMessage(error);
-    return <span role="alert">{errorMessage}</span>;
-  }
 
   return (
     <>
-      {recipe && <h1>{recipe.name}</h1>}
-      {recipe?.authorName && <h2>By {recipe.authorName}</h2>}
+      <Link to="/recipes">Back to all recipes</Link>
+      {getChildComponent()}
     </>
   );
 };

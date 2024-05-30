@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 
 import Recipes from "./Recipes";
+import { MemoryRouter } from "react-router-dom";
 
 const mockUseRecipesQuery = jest.fn();
 
@@ -13,6 +14,14 @@ jest.mock("./hooks", () => {
 });
 
 describe("Recipes", () => {
+  const renderComponent = () => {
+    render(
+      <MemoryRouter>
+        <Recipes />
+      </MemoryRouter>
+    );
+  };
+
   it("renders a list of all available recipes", () => {
     mockUseRecipesQuery.mockReturnValue({
       isLoading: false,
@@ -25,7 +34,7 @@ describe("Recipes", () => {
       ],
     });
 
-    render(<Recipes />);
+    renderComponent();
 
     expect(screen.getByRole("listitem")).toHaveTextContent("Recipe 1");
   });

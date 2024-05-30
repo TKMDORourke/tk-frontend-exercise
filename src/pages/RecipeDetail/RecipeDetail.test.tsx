@@ -2,7 +2,6 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 
 import RecipeDetail from "./RecipeDetail";
-import { InvalidRequestError, NotFoundError } from "./exceptions";
 
 const mockUseRecipeQuery = jest.fn();
 
@@ -29,7 +28,7 @@ describe("RecipeDetail", () => {
         id: "abc",
         name: "Recipe 1",
         authorId: "def",
-        authorName: "Test User",
+        ingredients: [],
       },
     });
 
@@ -37,9 +36,6 @@ describe("RecipeDetail", () => {
 
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
       "Recipe 1"
-    );
-    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
-      "By Test User"
     );
   });
 
@@ -53,35 +49,23 @@ describe("RecipeDetail", () => {
     expect(screen.getByText("Loading...")).toBeInTheDocument();
   });
 
-  it("renders the correct error message when the recipe does not exist", () => {
+  it("renders the error message component if there is an error", () => {
     mockUseRecipeQuery.mockReturnValue({
       isError: true,
-      error: new NotFoundError(),
+      error: new Error(),
     });
 
     renderComponent();
 
     expect(screen.getByRole("alert")).toHaveTextContent(
-      "No recipe exists for this ID"
+      "Could not load recipe, please try again later"
     );
   });
 
-  it("renders the correct error message when the recipe ID is invalid", () => {
+  it("renders the error message component if there is no error but the recipe is not loaded", () => {
     mockUseRecipeQuery.mockReturnValue({
-      isError: true,
-      error: new InvalidRequestError(),
-    });
-
-    renderComponent();
-
-    expect(screen.getByRole("alert")).toHaveTextContent(
-      "This ID is in the wrong format"
-    );
-  });
-
-  it("renders a generic error message when there is an unknown error", () => {
-    mockUseRecipeQuery.mockReturnValue({
-      isError: true,
+      isError: false,
+      recipe: undefined,
     });
 
     renderComponent();
