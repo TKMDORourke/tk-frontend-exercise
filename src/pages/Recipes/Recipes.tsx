@@ -6,6 +6,7 @@ const Recipes = () => {
 
   return (
     <>
+      <Link to="/recipes/create">Create a new recipe</Link>
       <ul>
         {!isLoading &&
           recipes &&

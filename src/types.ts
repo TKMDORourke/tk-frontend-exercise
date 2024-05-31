@@ -13,6 +13,8 @@ export type Recipe = {
 
 export type RecipeListing = Pick<Recipe, "id" | "name" | "authorId">;
 
+export type RecipeCreation = Pick<Recipe, "name" | "authorId">;
+
 export type User = {
   id: string;
   name: string;
