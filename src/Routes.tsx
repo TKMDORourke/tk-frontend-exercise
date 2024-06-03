@@ -7,7 +7,10 @@ const Routes = () => {
   return (
     <Switch>
       <Route path="/recipes/create">
-        <RecipeForm />
+        <RecipeForm mode="CREATE" />
+      </Route>
+      <Route path="/recipes/:recipeId/edit">
+        <RecipeForm mode="UPDATE" />
       </Route>
       <Route path="/recipes/:recipeId">
         <RecipeDetail />

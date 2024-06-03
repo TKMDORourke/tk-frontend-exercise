@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { useRecipeQuery } from "./hooks";
+import { useRecipeQuery } from "../../shared/hooks";
 import ErrorMessage from "./components/ErrorMessage";
 import Recipe from "./components/Recipe";
 
@@ -32,6 +32,12 @@ const RecipeDetail = () => {
   return (
     <>
       <Link to="/recipes">Back to all recipes</Link>
+      {recipe && (
+        <>
+          <br />
+          <Link to={`/recipes/${recipe.id}/edit`}>Edit this recipe</Link>
+        </>
+      )}
       {getChildComponent()}
     </>
   );

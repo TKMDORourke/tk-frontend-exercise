@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { InvalidRequestError, NotFoundError } from "../exceptions";
+import { InvalidRequestError, NotFoundError } from "../../../shared/exceptions";
 import ErrorMessage from "./ErrorMessage";
 
 describe("ErrorMessage", () => {

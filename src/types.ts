@@ -15,6 +15,10 @@ export type RecipeListing = Pick<Recipe, "id" | "name" | "authorId">;
 
 export type RecipeCreation = Pick<Recipe, "name" | "authorId">;
 
+export type RecipeUpdate = Pick<Recipe, "id" | "name" | "authorId"> & {
+  ingredients: string[];
+};
+
 export type User = {
   id: string;
   name: string;

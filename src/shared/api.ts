@@ -1,4 +1,4 @@
-import { BASE_URL } from "../../config";
+import { BASE_URL } from "../config";
 import { InvalidRequestError, NotFoundError } from "./exceptions";
 
 export type FetchRecipeResponse = {

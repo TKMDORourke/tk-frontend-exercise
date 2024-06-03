@@ -1,4 +1,5 @@
 import { BASE_URL } from "../../config";
+import { NotFoundError } from "../../shared/exceptions";
 
 export type FetchAllUsersResponse = {
   users: {
@@ -17,6 +18,12 @@ export type CreateRecipeResponse = {
   id: string;
   name: string;
   author_id: string;
+};
+
+export type UpdateRecipeRequest = {
+  name: string;
+  author_id: string;
+  ingredients: string[];
 };
 
 export const fetchAllUsers = async (): Promise<FetchAllUsersResponse> => {
@@ -39,4 +46,24 @@ export const createRecipe = async (
     throw new Error();
   }
   return response.json() as Promise<CreateRecipeResponse>;
+};
+
+export const updateRecipe = async (
+  recipeId: string,
+  recipe: UpdateRecipeRequest
+): Promise<void> => {
+  const response = await fetch(`${BASE_URL}/recipes/${recipeId}`, {
+    method: "PUT",
+    body: JSON.stringify(recipe),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    signal: AbortSignal.timeout(3000),
+  });
+  if (!response.ok) {
+    if (response.status === 404) {
+      throw new NotFoundError();
+    }
+    throw new Error();
+  }
 };

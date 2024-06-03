@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { InvalidRequestError, NotFoundError } from "../exceptions";
+import { InvalidRequestError, NotFoundError } from "../../../shared/exceptions";
 
 const ErrorMessage: FC<{ error: unknown }> = ({ error }) => {
   const getErrorMessage = (error: unknown) => {

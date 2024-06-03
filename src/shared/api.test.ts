@@ -1,6 +1,6 @@
 import { http, HttpResponse } from "msw";
-import server from "../../msw/server";
-import { BASE_URL } from "../../config";
+import server from "../msw/server";
+import { BASE_URL } from "../config";
 import { fetchRecipe } from "./api";
 import { InvalidRequestError, NotFoundError } from "./exceptions";
 

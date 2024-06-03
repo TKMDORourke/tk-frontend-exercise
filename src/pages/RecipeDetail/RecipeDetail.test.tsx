@@ -5,8 +5,8 @@ import RecipeDetail from "./RecipeDetail";
 
 const mockUseRecipeQuery = jest.fn();
 
-jest.mock("./hooks", () => {
-  const originalModule = jest.requireActual("./hooks");
+jest.mock("../../shared/hooks", () => {
+  const originalModule = jest.requireActual("../../shared/hooks");
   return {
     ...originalModule,
     useRecipeQuery: (recipeId: string) => mockUseRecipeQuery(recipeId),
@@ -37,6 +37,32 @@ describe("RecipeDetail", () => {
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
       "Recipe 1"
     );
+  });
+
+  it("renders a link to the edit page if a recipe is provided", () => {
+    mockUseRecipeQuery.mockReturnValue({
+      isLoading: false,
+      recipe: {
+        id: "abc",
+        name: "",
+        authorId: "",
+        ingredients: [],
+      },
+    });
+
+    renderComponent();
+
+    expect(screen.getAllByRole("link")).toHaveLength(2);
+  });
+
+  it("does not render a link to the edit page if a recipe is not provided", () => {
+    mockUseRecipeQuery.mockReturnValue({
+      isLoading: false,
+    });
+
+    renderComponent();
+
+    expect(screen.getAllByRole("link")).toHaveLength(1);
   });
 
   it("renders a loading message while loading", () => {

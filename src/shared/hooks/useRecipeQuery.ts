@@ -1,6 +1,6 @@
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { fetchRecipe, type FetchRecipeResponse } from "../api";
-import type { Recipe } from "../../../types";
+import type { Recipe } from "../../types";
 import camelize from "camelize-ts";
 
 type RecipeQueryResult = UseQueryResult<FetchRecipeResponse> & {
