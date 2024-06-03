@@ -40,7 +40,8 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
-    "test": "jest"
+    "test": "jest",
+    "pre-commit": "./pre-commit.sh"
   },
   "eslintConfig": {
     "extends": [
