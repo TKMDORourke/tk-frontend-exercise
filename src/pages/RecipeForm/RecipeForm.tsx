@@ -1,4 +1,4 @@
-import { Link, Redirect, useParams } from "react-router-dom";
+import { Redirect, useParams } from "react-router-dom";
 import {
   useUsersQuery,
   useCreateRecipeMutation,
@@ -7,6 +7,47 @@ import {
 import UserSelect from "./components/UserSelect";
 import { useState, FC, useEffect } from "react";
 import { useRecipeQuery } from "../../shared/hooks";
+import { Header, StyledLink } from "../../shared/components/Header";
+import { ErrorPanel } from "../../shared/components/ErrorPanel";
+import styled from "styled-components";
+
+const Title = styled.h1`
+  font-size: 2em;
+  margin: 0.5em 0 0.5em 0;
+`;
+
+const StyledForm = styled.form`
+  display: flex;
+  flex-direction: column;
+
+  label {
+    margin-bottom: 2em;
+  }
+`;
+
+export const StyledInputContainer = styled.div`
+  input,
+  select {
+    padding: 0.5em;
+    border: none;
+    border-bottom: 1px solid;
+    background: transparent;
+    color: inherit;
+    margin: 0.5em;
+  }
+`;
+
+const StyledButton = styled.button`
+  font-size: 1em;
+  text-align: left;
+  width: fit-content;
+  border: 1px solid #fff;
+  background: #fff;
+  color: #144fcc;
+  padding: 1em;
+  border-radius: 24px;
+  cursor: pointer;
+`;
 
 type FormData = {
   name: string;
@@ -44,7 +85,7 @@ const RecipeForm: FC<{ mode: FormMode }> = ({ mode }) => {
     }
   }, [isRecipeLoading]);
 
-  const [serverError, setServerError] = useState<string>();
+  const [serverError, setServerError] = useState<boolean>(false);
   const serverErrorMessage = `Sorry, we couldn't ${
     mode === "UPDATE" ? "update" : "create"
   } this recipe!`;
@@ -64,7 +105,7 @@ const RecipeForm: FC<{ mode: FormMode }> = ({ mode }) => {
         },
         {
           onSuccess: () => setRedirectUrl(`/recipes/${recipe.id}`),
-          onError: (error) => setServerError(error.message),
+          onError: () => setServerError(true),
         }
       );
     } else {
@@ -75,7 +116,9 @@ const RecipeForm: FC<{ mode: FormMode }> = ({ mode }) => {
         },
         {
           onSuccess: ({ id }) => setRedirectUrl(`/recipes/${id}`),
-          onError: (error) => setServerError(error.message),
+          onError: () => {
+            setServerError(true);
+          },
         }
       );
     }
@@ -87,32 +130,35 @@ const RecipeForm: FC<{ mode: FormMode }> = ({ mode }) => {
 
   return (
     <>
-      <Link to="/recipes">Back to all recipes</Link>
+      <Header>
+        <StyledLink to="/recipes">Back to all recipes</StyledLink>
+      </Header>
       {(isRecipeLoading && <p>Loading...</p>) || (
         <>
-          <h1>{mode === "UPDATE" ? "New" : "Edit"} Recipe</h1>
+          <Title>{mode === "UPDATE" ? "Edit" : "New"} Recipe</Title>
           {serverError && (
-            <div role="alert">
+            <ErrorPanel role="alert">
               <span>{serverErrorMessage}</span>
-            </div>
+            </ErrorPanel>
           )}
           {!areUsersLoading && (
-            <form onSubmit={handleSubmit}>
+            <StyledForm onSubmit={handleSubmit}>
               <label>
-                <span>Name: </span>
-                <input
-                  required
-                  type="text"
-                  value={formData.name}
-                  onChange={(event) =>
-                    setFormData({
-                      ...formData,
-                      name: event.target.value,
-                    })
-                  }
-                />
+                <span>Name</span>
+                <StyledInputContainer>
+                  <input
+                    required
+                    type="text"
+                    value={formData.name}
+                    onChange={(event) =>
+                      setFormData({
+                        ...formData,
+                        name: event.target.value,
+                      })
+                    }
+                  />
+                </StyledInputContainer>
               </label>
-              <br />
               <UserSelect
                 users={users}
                 selectedUser={formData?.authorId}
@@ -120,9 +166,8 @@ const RecipeForm: FC<{ mode: FormMode }> = ({ mode }) => {
                   setFormData({ ...formData, authorId: userId })
                 }
               />
-              <br />
-              <button type="submit">Save Recipe</button>
-            </form>
+              <StyledButton type="submit">Save Recipe</StyledButton>
+            </StyledForm>
           )}
         </>
       )}

@@ -43,7 +43,7 @@ describe("UserSelect", () => {
     );
 
     await user.selectOptions(
-      screen.getByRole("combobox", { name: "Author:" }),
+      screen.getByRole("combobox", { name: "Author" }),
       screen.getByRole("option", { name: "Test User 1" })
     );
 

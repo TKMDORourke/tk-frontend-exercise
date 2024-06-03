@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { User } from "../../../types";
+import { StyledInputContainer } from "../RecipeForm";
 
 type UserSelectProps = {
   users: User[];
@@ -13,21 +14,23 @@ const UserSelect: FC<UserSelectProps> = ({
   onUserChange,
 }) => (
   <label>
-    <span>Author: </span>
-    <select
-      onChange={(event) => onUserChange(event.target.value)}
-      value={selectedUser}
-      required
-    >
-      <option disabled value="">
-        Please select
-      </option>
-      {users.map(({ id, name }) => (
-        <option key={id} value={id}>
-          {name}
+    <span>Author</span>
+    <StyledInputContainer>
+      <select
+        onChange={(event) => onUserChange(event.target.value)}
+        value={selectedUser}
+        required
+      >
+        <option disabled value="">
+          Please select
         </option>
-      ))}
-    </select>
+        {users.map(({ id, name }) => (
+          <option key={id} value={id}>
+            {name}
+          </option>
+        ))}
+      </select>
+    </StyledInputContainer>
   </label>
 );
 

@@ -52,9 +52,7 @@ describe("RecipeForm", () => {
 
       renderComponent("CREATE");
 
-      expect(
-        screen.getByRole("textbox", { name: "Name:" })
-      ).toBeInTheDocument();
+      expect(screen.getByRole("textbox", { name: "Name" })).toBeInTheDocument();
     });
 
     it("renders the user selection component with the given users", () => {
@@ -97,11 +95,11 @@ describe("RecipeForm", () => {
       renderComponent("CREATE");
 
       await user.type(
-        screen.getByRole("textbox", { name: "Name:" }),
+        screen.getByRole("textbox", { name: "Name" }),
         "Test Recipe"
       );
       await user.selectOptions(
-        screen.getByRole("combobox", { name: "Author:" }),
+        screen.getByRole("combobox", { name: "Author" }),
         screen.getByRole("option", { name: "Test User" })
       );
       await user.click(screen.getByRole("button"));
@@ -128,11 +126,11 @@ describe("RecipeForm", () => {
       renderComponent("CREATE");
 
       await user.type(
-        screen.getByRole("textbox", { name: "Name:" }),
+        screen.getByRole("textbox", { name: "Name" }),
         "Test Recipe"
       );
       await user.selectOptions(
-        screen.getByRole("combobox", { name: "Author:" }),
+        screen.getByRole("combobox", { name: "Author" }),
         screen.getByRole("option", { name: "Test User" })
       );
       await user.click(screen.getByRole("button"));

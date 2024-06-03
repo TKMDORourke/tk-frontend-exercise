@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useRecipeQuery } from "../../shared/hooks";
 import ErrorMessage from "./components/ErrorMessage";
 import Recipe from "./components/Recipe";
+import { Header, StyledLink } from "../../shared/components/Header";
 
 type RecipeParams = {
   recipeId: string;
@@ -31,13 +32,14 @@ const RecipeDetail = () => {
 
   return (
     <>
-      <Link to="/recipes">Back to all recipes</Link>
-      {recipe && (
-        <>
-          <br />
-          <Link to={`/recipes/${recipe.id}/edit`}>Edit this recipe</Link>
-        </>
-      )}
+      <Header>
+        <StyledLink to="/recipes">Back to all recipes</StyledLink>
+        {recipe && (
+          <StyledLink to={`/recipes/${recipe.id}/edit`}>
+            Edit this recipe
+          </StyledLink>
+        )}
+      </Header>
       {getChildComponent()}
     </>
   );

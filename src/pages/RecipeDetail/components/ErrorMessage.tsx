@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { InvalidRequestError, NotFoundError } from "../../../shared/exceptions";
+import { ErrorPanel } from "../../../shared/components/ErrorPanel";
 
 const ErrorMessage: FC<{ error: unknown }> = ({ error }) => {
   const getErrorMessage = (error: unknown) => {
@@ -12,7 +13,7 @@ const ErrorMessage: FC<{ error: unknown }> = ({ error }) => {
     return "Could not load recipe, please try again later";
   };
 
-  return <span role="alert">{getErrorMessage(error)}</span>;
+  return <ErrorPanel role="alert">{getErrorMessage(error)}</ErrorPanel>;
 };
 
 export default ErrorMessage;
